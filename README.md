@@ -5,7 +5,8 @@ Numerical solution of Navier-Stokes equation for 2D cavity flow. See [CFD Python
 ## Parallelisation
 
 * Serial
-* OpenMP
+* [OpenMP](https://www.openmp.org/)
+* [CUDA](https://developer.nvidia.com/)
 
 ### Test Machine
 
@@ -46,8 +47,17 @@ dx = 0.02       dy = 0.02
 dt = 0.0001
 +++ ----------- +++
 
-serial::run [1]         13961 ms
-omp::run [12]           4704 ms
+serial::run[1]          13860 ms
+omp::run[12]            4975 ms
+cu::run[(4,4),(32,32)]  1047 ms
+```
+
+## Plotting
+
+```
+python plot.py p_serial.dat u_serial.dat v_serial.dat serial
+python ../plot.py p_omp.dat u_omp.dat v_omp.dat omp
+python ../plot.py p_cu.dat u_cu.dat v_cu.dat cu
 ```
 
 ## Singularity
