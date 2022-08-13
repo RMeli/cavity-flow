@@ -46,6 +46,20 @@ dx = 0.02       dy = 0.02
 dt = 0.0001
 +++ ----------- +++
 
-serial::run [1]         26161 ms
-omp::run [10]           4314 ms
+serial::run [1]         13961 ms
+omp::run [12]           4704 ms
+```
+
+## Singularity
+
+## Build
+
+```bash
+sudo singularity build singularity.sif singularity.def
+```
+
+## Interactive Shell
+
+```bash
+singularity shell --nv singularity.sif
 ```
