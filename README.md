@@ -2,6 +2,7 @@
 
 Numerical solution of Navier-Stokes equation for 2D cavity flow. See [CFD Python: the 12 steps to Navier-Stokes equations](https://doi.org/10.21105/jose.00021) for details.
 
+![Cavity Flow](_assets/cavity-serial.png)
 ## Parallelisation
 
 * Serial
@@ -47,9 +48,9 @@ dx = 0.02       dy = 0.02
 dt = 0.0001
 +++ ----------- +++
 
-serial::run[1]          13860 ms
-omp::run[12]            4975 ms
-cu::run[(4,4),(32,32)]  1047 ms
+serial::run[1]          13600 ms
+omp::run[8]             5733 ms
+cu::run[(4,4),(32,32)]  997 ms
 ```
 
 ## Plotting
