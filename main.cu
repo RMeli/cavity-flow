@@ -224,30 +224,30 @@ namespace omp{
 void pressure(Grid& p, const Grid& u, const Grid& v){
     Grid c;
 
-    #pragma omp parallel
-    {
-        #pragma omp for
-        for(size_t iy = 1; iy < cst::Ny - 1; iy++){ // y runs across rows
-            #pragma omp simd
-            for(size_t ix = 1; ix < cst::Nx - 1; ix++){ // x runs across columns
-                auto [idx, idx_right, idx_left, idx_up, idx_down] = util::multiindex(iy, ix);
-                
-                auto du_x = (u[idx_right] - u[idx_left]) / (2.0 * cst::dx);
-                auto du_y = (u[idx_up] - u[idx_down]) / (2.0 * cst::dy);
-                auto dv_x = (v[idx_right] - v[idx_left]) / (2.0 * cst::dx);
-                auto dv_y = (v[idx_up] - v[idx_down]) / (2.0 * cst::dy); 
-                
-                c[idx] = - cst::rho * cst::dx2 * cst::dy2 / cst::dx2dy2 *
-                        (
-                            (du_x + dv_y) / cst::dt
-                            - du_x * du_x - 2.0 * du_y * dv_x - dv_y * dv_y
-                        );
-            }
+    #pragma omp parallel for
+    for(size_t iy = 1; iy < cst::Ny - 1; iy++){ // y runs across rows
+        #pragma omp simd
+        for(size_t ix = 1; ix < cst::Nx - 1; ix++){ // x runs across columns
+            auto [idx, idx_right, idx_left, idx_up, idx_down] = util::multiindex(iy, ix);
+
+            auto du_x = (u[idx_right] - u[idx_left]) / (2.0 * cst::dx);
+            auto du_y = (u[idx_up] - u[idx_down]) / (2.0 * cst::dy);
+            auto dv_x = (v[idx_right] - v[idx_left]) / (2.0 * cst::dx);
+            auto dv_y = (v[idx_up] - v[idx_down]) / (2.0 * cst::dy);
+
+            c[idx] = - cst::rho * cst::dx2 * cst::dy2 / cst::dx2dy2 *
+                    (
+                        (du_x + dv_y) / cst::dt
+                        - du_x * du_x - 2.0 * du_y * dv_x - dv_y * dv_y
+                    );
         }
+    }
 
-        for(size_t i = 0; i < cst::Nt; i++){
-            Grid pold;
+    for(size_t i = 0; i < cst::Nt; i++){
+        Grid pold;
 
+        #pragma omp parallel
+        {
             #pragma omp for simd
             for(size_t j = 0; j < cst::N; j++){
                 pold[j] = p[j];
