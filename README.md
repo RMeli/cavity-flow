@@ -63,13 +63,13 @@ python ../plot.py p_cu.dat u_cu.dat v_cu.dat cu
 
 ## Singularity
 
-## Build
+### Build
 
 ```bash
 sudo singularity build singularity.sif singularity.def
 ```
 
-## Interactive Shell
+### Interactive Shell
 
 ```bash
 singularity shell --nv singularity.sif
